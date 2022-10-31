@@ -1,20 +1,10 @@
-//銀行保衛戰 製作陳政鴻
-#include<iostream>
-#include<graphics.h> //easyx
-#include<vector>
-#include<conio.h>
-#include<mmsystem.h>
-#pragma comment(lib,"winmm.lib")//靜態庫
-using namespace std;
+#include "main.h"
 
-//定義畫面長寬
-constexpr auto swidth = 600;
-constexpr auto sheight = 1100;
-
-constexpr unsigned int xhp = 3;//主角初始血量
-constexpr auto hurttime = 400;//受到攻擊後,添加無敵幀
-constexpr unsigned int  difficulty = 0 ;
-
+//音樂類
+class music
+{
+public:
+	 
 //主頁音樂
 void bgm1()
 		{
@@ -23,6 +13,7 @@ void bgm1()
 			mciSendString(L"open ./music/starbgm.mp3", 0, 0, 0);
 			mciSendString(L"play ./music/starbgm.mp3 repeat", 0, 0, 0);
 		}
+
 //戰鬥音樂
 void bgm2()
 		{
@@ -30,6 +21,7 @@ void bgm2()
 			mciSendString(L"open ./music/battlebgm.mp3", 0, 0, 0);
 			mciSendString(L"play ./music/battlebgm.mp3 repeat", 0, 0, 0);
 		}
+
 //戰敗音樂
 void bgm3()
 		{
@@ -42,6 +34,7 @@ void bgm3()
 			mciSendString(L"play ./music/herodeat.mp3", 0, 0, 0);
 
 		}
+
 //勝利音樂
 void bgm4()
 		{
@@ -49,6 +42,7 @@ void bgm4()
 			mciSendString(L"open ./music/victory.mp3", 0, 0, 0);
 			mciSendString(L"play ./music/victory.mp3 repeat", 0, 0, 0);
 		}
+
 //戰敗語音
 void hurtsound()
 		{
@@ -58,158 +52,90 @@ void hurtsound()
 
 		}
 
-//按鈕點擊判定
-bool pointinrect(int x, int y, RECT& r)
+};
+
+//介面類
+class ui
 {
-	return(r.left <= x && x <= r.right && r.top <= y && y <= r.bottom);
-}
-
-//碰撞檢測
-bool rectcrashrect(RECT& r1, RECT& r2)
-{
-	RECT r;
-	r.left = r1.left - (r2.right - r2.left);
-	r.right = r1.right;
-	r.top = r1.top - (r2.bottom - r2.top);
-	r.bottom = r1.bottom;
-
-	return(r.left < r2.left&& r2.left <= r.right && r.top <= r2.top && r2.top <= r.bottom);
-}
-
-//開始介面
+public:
+	//開始介面
 void welcome()
-{
-	LPCTSTR title = _T("銀行保衛戰");
-	LPCTSTR tplay = _T("開始遊戲");
-	LPCTSTR texit = _T("退出遊戲");
-	LPCTSTR tabout = _T("關於");
-	LPCTSTR tintroduce = _T("說明");
-	IMAGE startimg, aboutimg, introduceimg;
-	loadimage(&startimg, L"./img/start.jpg", 600, 1200);
-	loadimage(&aboutimg, L"./img/about.jpg", 600, 1200);
-	loadimage(&introduceimg, L"./img/cg.jpg", 800, 1067);
+	{		
+		loadimage(&startimg, L"./img/start.jpg", 600, 1200);
+		RECT tplayr, texitr, taboutr, tintroducer; //按鈕
 
-	RECT tplayr, texitr, taboutr, tintroducer; //按鈕
-	
-	bgm1();
-	while (true)
-	{
-		BeginBatchDraw();
-
-		setbkcolor(WHITE);
-		cleardevice();
-		putimage(0, 0, &startimg);
-		settextstyle(80, 0, _T("黑體"), 0, 0, 600, 0, 0, 0);
-
-		settextcolor(BLACK);
-		setbkmode(TRANSPARENT);
-
-		outtextxy(swidth / 2 - textwidth(title) / 2, sheight / 8, title);//文本位置
-		
-		//設定按鈕位置
-		settextstyle(60, 0, _T("黑體"));
-		tplayr.left = swidth / 2 - textwidth(tplay) / 2;
-		tplayr.right = tplayr.left + textwidth(tplay);
-		tplayr.top = sheight / 8 * 2.5;
-		tplayr.bottom = tplayr.top + textheight(texit);
-
-		texitr.left = swidth / 2 - textwidth(tplay) / 2;
-		texitr.right = texitr.left + textwidth(tplay);
-		texitr.top = sheight / 8 * 3.3;
-		texitr.bottom = texitr.top + textheight(tabout);
-
-		taboutr.left = swidth / 2 - textwidth(texit) / 4;
-		taboutr.right = taboutr.left + textwidth(texit);
-		taboutr.top = sheight / 8 * 4;
-		taboutr.bottom = taboutr.top + textheight(tintroduce);
-
-		tintroducer.left = swidth / 2 - textwidth(tabout) / 2;
-		tintroducer.right = tintroducer.left + textwidth(tabout);
-		tintroducer.top = sheight / 8 * 4.8;
-		tintroducer.bottom = tintroducer.top + textheight(tintroduce);
-
-		outtextxy(tplayr.left, tplayr.top, tplay);
-		outtextxy(texitr.left, texitr.top, texit);
-		outtextxy(taboutr.left, taboutr.top, tabout);
-		outtextxy(tintroducer.left, tintroducer.top, tintroduce);
-
-		EndBatchDraw();
-
-
-		ExMessage mess;
-		getmessage(&mess, EM_MOUSE);
-
-		if (mess.lbutton)
+		while (true)
 		{
-			if (pointinrect(mess.x, mess.y, tplayr))//開始遊戲
-			{		
-				return;
-			}
-			else if (pointinrect(mess.x, mess.y, texitr))//退出遊戲
-			{
-				exit(0);
-			}
-			else if (pointinrect(mess.x, mess.y, taboutr))//退出遊戲
-			{
-				putimage(0, -100, &aboutimg);
-				settextstyle(100, 0, _T("黑體"));
-				outtextxy(swidth / 3, 50, L"關於");
-				settextstyle(30, 0, _T("黑體"));
-				outtextxy(swidth / 2.3, 200, L"圖源");
-				outtextxy(swidth / 10, 250, L"@itaco_G  @parang9494  @haejooncho");
-				outtextxy(swidth / 3.5, 300, L" P:15317640    P:7054606");
-				outtextxy(swidth / 2.3, 350, L"音樂");
-				outtextxy(swidth / 4, 400, L"[Blue Archive] Theme_23 ");
-				outtextxy(swidth / 4, 450, L"[Blue Archive]Theme_27 ");
-				outtextxy(swidth / 4, 500, L"[fanmade]便利屋68Party!! ");
-				outtextxy(0, 550, L"[Blue Archive]Unwelcome School_Piano Jazz Ver.");
-				outtextxy(swidth / 3, 600, L"製作:陳政鴻");
-				setbkmode(OPAQUE);
-				outtextxy(180, 700, L"按Enterc返回主界面");
-				setbkmode(TRANSPARENT);
+			BeginBatchDraw();
+			setbkcolor(WHITE);
+			cleardevice();
+			putimage(0, 0, &startimg);
+			settextstyle(80, 0, _T("黑體"), 0, 0, 600, 0, 0, 0);
 
-				while (true)
+			settextcolor(BLACK);
+			setbkmode(TRANSPARENT);
+
+			outtextxy(swidth / 2 - textwidth(title) / 2, sheight / 8, title);//文本位置
+
+			//設定按鈕位置
+			settextstyle(60, 0, _T("黑體"));
+			tplayr.left = swidth / 2 - textwidth(tplay) / 2;
+			tplayr.right = tplayr.left + textwidth(tplay);
+			tplayr.top = sheight / 8 * 2.5;
+			tplayr.bottom = tplayr.top + textheight(texit);
+
+			texitr.left = swidth / 2 - textwidth(tplay) / 2;
+			texitr.right = texitr.left + textwidth(tplay);
+			texitr.top = sheight / 8 * 3.3;
+			texitr.bottom = texitr.top + textheight(tabout);
+
+			taboutr.left = swidth / 2 - textwidth(texit) / 4;
+			taboutr.right = taboutr.left + textwidth(texit);
+			taboutr.top = sheight / 8 * 4;
+			taboutr.bottom = taboutr.top + textheight(tintroduce);
+
+			tintroducer.left = swidth / 2 - textwidth(tabout) / 2;
+			tintroducer.right = tintroducer.left + textwidth(tabout);
+			tintroducer.top = sheight / 8 * 4.8;
+			tintroducer.bottom = tintroducer.top + textheight(tintroduce);
+
+			outtextxy(tplayr.left, tplayr.top, tplay);
+			outtextxy(texitr.left, texitr.top, texit);
+			outtextxy(taboutr.left, taboutr.top, tabout);
+			outtextxy(tintroducer.left, tintroducer.top, tintroduce);
+
+			EndBatchDraw();
+
+			music mus;
+			mus.bgm1();
+
+			ExMessage mess;
+			getmessage(&mess, EM_MOUSE);
+
+			if (mess.lbutton)
+			{
+				if (pointinrect(mess.x, mess.y, tplayr))//開始遊戲
 				{
-					ExMessage mess;
-					getmessage(&mess, EM_KEY);
-					if (mess.vkcode == 0x0D)
-					{
-						break;
-					}
+					return;
+				}
+				else if (pointinrect(mess.x, mess.y, texitr))//退出遊戲
+				{
+					exit(0);
+				}
+				else if (pointinrect(mess.x, mess.y, taboutr))//退出遊戲
+				{
+					about();
+				}
+				else if (pointinrect(mess.x, mess.y, tintroducer))
+				{
+					introduce();
 				}
 
 			}
-			else if (pointinrect(mess.x, mess.y, tintroducer))
-			{
-				putimage(-100, 0, &introduceimg);
-				settextstyle(100, 0, _T("黑體"));
-				outtextxy(swidth / 3, 50, L"說明");
-				settextstyle(30, 0, _T("黑體"));
-
-				outtextxy(swidth / 4.5, 200, L"打擊前來搶銀行的罪犯");
-				outtextxy(swidth / 4.5, 250, L"目標是是阻止60人就算成功");
-				outtextxy(swidth / 4.5, 300, L"但是請注意,你只有3條命");
-				outtextxy(swidth / 4.5, 350, L"被攻擊,撞到罪犯都會減少生命值");
-				outtextxy(swidth / 4.5, 400, L"使用滑鼠控制主角");
-				outtextxy(swidth / 4.5, 450, L"空格鍵暫停");
-				setbkmode(OPAQUE);
-				outtextxy(180, 600, L"按Enterc返回主界面");
-				setbkmode(TRANSPARENT);
-				while (true)
-				{
-					ExMessage mess;
-					getmessage(&mess, EM_KEY);
-					if (mess.vkcode == 0x0D)
-					{
-						break;
-					}
-				}
-			}
-
 		}
+
 	}
 
-}
 //勝利介面
 void victory(unsigned long long& kill)
 {
@@ -235,7 +161,8 @@ void victory(unsigned long long& kill)
 	settextstyle(60, 0, _T("黑體"));
 	outtextxy(swidth / 6, sheight / 5, str);
 
-	bgm4();
+	music mus;
+	mus.bgm4();
 	while (true)
 	{
 		ExMessage mess;
@@ -266,8 +193,9 @@ void over(unsigned long long& kill)
 	setbkmode(TRANSPARENT);
 	settextstyle(100, 0, _T("黑體"));
 	outtextxy(100, 100, L"任務失敗");
-
-	bgm3();
+	
+	music mus;
+	mus.bgm3();
 	while (true)
 	{
 		ExMessage mess;
@@ -279,33 +207,77 @@ void over(unsigned long long& kill)
 	}
 }
 
-void skill()
+void about()
 {
-	vector<IMAGE> run;
-	TCHAR imgname[256];
-	for (int i = 0; i < 234; i++)
-	{
-		_stprintf_s(imgname, L"./f/(%d).jpg", i);
-		IMAGE g1;
-		loadimage(&g1, imgname, 1200, 600);
-		run.push_back(g1);
-	}
+	IMAGE aboutimg;
+	loadimage(&aboutimg, L"./img/about.jpg", 600, 1200);
+	putimage(0, -100, &aboutimg);
 
-	IMAGE imgshow;
-	int i = 0;
-	while (1)
+	settextstyle(100, 0, _T("黑體"));
+	outtextxy(swidth / 3, 50, L"關於");
+	settextstyle(30, 0, _T("黑體"));
+	outtextxy(swidth / 2.3, 200, L"圖源");
+	outtextxy(swidth / 10, 250, L"@itaco_G  @parang9494  @haejooncho");
+	outtextxy(swidth / 3.5, 300, L" P:15317640    P:7054606");
+	outtextxy(swidth / 2.3, 350, L"音樂");
+	outtextxy(swidth / 4, 400, L"[Blue Archive] Theme_23 ");
+	outtextxy(swidth / 4, 450, L"[Blue Archive]Theme_27 ");
+	outtextxy(swidth / 4, 500, L"[fanmade]便利屋68Party!! ");
+	outtextxy(0, 550, L"[Blue Archive]Unwelcome School_Piano Jazz Ver.");
+	outtextxy(swidth / 3, 600, L"製作:陳政鴻");
+	setbkmode(OPAQUE);
+	outtextxy(180, 700, L"按Enterc返回主界面");
+	setbkmode(TRANSPARENT);
+
+	while (true)
 	{
-		if (i == 231)
+		ExMessage mess;
+		getmessage(&mess, EM_KEY);
+		if (mess.vkcode == 0x0D)
 		{
-			i = 1;
+			break;
 		}
-	imgshow = run[i];
-	putimage(0, 0, &imgshow);
-	 i++;
-	Sleep(100);
-	}	
+	}
 }
 
+void introduce()
+{
+	IMAGE introduceimg;
+	loadimage(&introduceimg, L"./img/cg.jpg", 800, 1067);
+
+	putimage(-100, 0, &introduceimg);
+	settextstyle(100, 0, _T("黑體"));
+	outtextxy(swidth / 3, 50, L"說明");
+	settextstyle(30, 0, _T("黑體"));
+
+	outtextxy(swidth / 4.5, 200, L"打擊前來搶銀行的罪犯");
+	outtextxy(swidth / 4.5, 250, L"目標是是阻止60人就算成功");
+	outtextxy(swidth / 4.5, 300, L"但是請注意,你只有3條命");
+	outtextxy(swidth / 4.5, 350, L"被攻擊,撞到罪犯都會減少生命值");
+	outtextxy(swidth / 4.5, 400, L"使用滑鼠控制主角");
+	outtextxy(swidth / 4.5, 450, L"空格鍵暫停");
+	setbkmode(OPAQUE);
+	outtextxy(180, 600, L"按Enterc返回主界面");
+	setbkmode(TRANSPARENT);
+	while (true)
+	{
+		ExMessage mess;
+		getmessage(&mess, EM_KEY);
+		if (mess.vkcode == 0x0D)
+		{
+			break;
+		}
+	}
+}
+
+private:
+		LPCTSTR title = _T("銀行保衛戰");
+		LPCTSTR tplay = _T("開始遊戲");
+		LPCTSTR texit = _T("退出遊戲");
+		LPCTSTR tabout = _T("關於");
+		LPCTSTR tintroduce = _T("說明");
+		IMAGE startimg;
+};
 
 //資源類 
 class BK //背景
@@ -361,7 +333,8 @@ public:
 	bool hurt()//受到攻擊
 	{
 		hp--;	
-		hurtsound();
+		music mus;
+		mus.hurtsound();
 		return (hp == 0) ? false : true;
 	}
 	RECT& getrect() { return rect; }
@@ -481,7 +454,6 @@ public:
 
 };
 
-
 //生成敵人
 bool addenemy(vector<enemy*>& es, IMAGE& enemyimg, IMAGE* boom)
 {
@@ -501,6 +473,7 @@ bool addenemy(vector<enemy*>& es, IMAGE& enemyimg, IMAGE* boom)
 //遊戲介面
 bool play()
 {
+	ui uii;
 	setbkcolor(WHITE);
 	cleardevice();
 	bool is_play = true;
@@ -528,14 +501,14 @@ bool play()
 
 	clock_t hurtlast = clock();//無敵幀
 
-	
-	bgm2();
+	music mus;
+	mus.bgm2();
 
 	for (int i = 0; i < 5; i++) //開局生成敵人
 	{
 		addenemy(es, enemyimg, eboom);
 	}
-
+	
 	while (is_play)
 	{
 		if (kill == 60)
@@ -543,7 +516,8 @@ bool play()
 			break;
 		}
 			
-		bsing++;		
+		bsing++;
+
 		if (bsing % 30 == 0)//主角子彈頻率
 		{
 			bs.push_back(new bullet(bulletimg, hp.getrect()));//生成新的子彈
@@ -561,7 +535,7 @@ bool play()
 		}
 
 		BeginBatchDraw();
-
+	
 		bk.show();
 		Sleep(6);
 		flushmessage();
@@ -632,7 +606,7 @@ bool play()
 		settextstyle(30, 0, _T("黑體"));
 		outtextxy(0, 0, str);
 
-		auto it = es.begin();//初始化敵人
+		auto it = es.begin();//定義(敵人)容器的初始位置
 		while (it != es.end())
 		{
 			if (rectcrashrect((*it)->getrect(), hp.getrect()))//碰撞到敵人,扣玩家生命
@@ -645,10 +619,10 @@ bool play()
 			}
 			
 			
-			auto bit = bs.begin(); //初始化玩家子彈
-			while (bit != bs.end())//判斷玩家子彈是否命中
+			auto bit = bs.begin(); ////定義(主角子彈)容器的初始位置
+			while (bit != bs.end())
 			{
-				if (rectcrashrect((*bit)->getrect(), (*it)->getrect()))
+				if (rectcrashrect((*bit)->getrect(), (*it)->getrect()))//敵人碰撞到主角子彈,銷毀
 				{
 					(*it)->Isdie();
 					delete(*bit);
@@ -679,23 +653,26 @@ bool play()
 	//勝利條件
 	if (kill >= 60)
 	{
-		victory(kill);
+		uii.victory(kill);
 	}
 	else
 	{
-		over(kill);
+		uii.over(kill);
 	}
 	return true;
 }
 
 int main()
 {
+	ui uii;
+	
 	initgraph(swidth, sheight, EW_NOMINIMIZE | EW_SHOWCONSOLE);  //easyx初始化
 	bool is_live = true;   //當遊戲開始進行
 
+	ui ui;
 	while (is_live)
 	{
-		welcome();
+		ui.welcome();
 		is_live = play();
 	}
 
