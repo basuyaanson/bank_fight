@@ -1,28 +1,25 @@
 #include "main.h"
-
-//­µ¼ÖÃş
+//éŸ³æ¨‚é¡
 class music
 {
 public:
-	 
-//¥D­¶­µ¼Ö
+//ä¸»é éŸ³æ¨‚
 void bgm1()
 		{
+			mciSendString(L"open ./music/starbgm.mp3", 0, 0, 0);
 			mciSendString(L"close ./music/victory.mp3", 0, 0, 0);
 			mciSendString(L"close ./music/defeat.mp3", 0, 0, 0);
-			mciSendString(L"open ./music/starbgm.mp3", 0, 0, 0);
+			Sleep(2);
 			mciSendString(L"play ./music/starbgm.mp3 repeat", 0, 0, 0);
 		}
-
-//¾Ô°«­µ¼Ö
+//æˆ°é¬¥éŸ³æ¨‚
 void bgm2()
 		{
 			mciSendString(L"close ./music/starbgm.mp3", 0, 0, 0);
 			mciSendString(L"open ./music/battlebgm.mp3", 0, 0, 0);
 			mciSendString(L"play ./music/battlebgm.mp3 repeat", 0, 0, 0);
 		}
-
-//¾Ô±Ñ­µ¼Ö
+//æˆ°æ•—éŸ³æ¨‚
 void bgm3()
 		{
 			mciSendString(L"close ./music/herodeat.mp3", 0, 0, 0);
@@ -34,35 +31,66 @@ void bgm3()
 			mciSendString(L"play ./music/herodeat.mp3", 0, 0, 0);
 
 		}
-
-//³Ó§Q­µ¼Ö
+//å‹åˆ©éŸ³æ¨‚
 void bgm4()
 		{
 			mciSendString(L"close ./music/battlebgm.mp3", 0, 0, 0);
 			mciSendString(L"open ./music/victory.mp3", 0, 0, 0);
 			mciSendString(L"play ./music/victory.mp3 repeat", 0, 0, 0);
 		}
-
-//¾Ô±Ñ»y­µ
+//æˆ°æ•—èªéŸ³
 void hurtsound()
 		{
 			mciSendString(L"close ./music/hero_hurt.mp3", 0, 0, 0);
 			mciSendString(L"open ./music/hero_hurt.mp3", 0, 0, 0);
-			mciSendString(L"play ./music/hero_hurt.mp3", 0, 0, 0);//Sleep(1200);
+			mciSendString(L"play ./music/hero_hurt.mp3", 0, 0, 0);
 
 		}
-
+//æŠ€èƒ½éŸ³æ•ˆ
+void skill()
+{
+	mciSendString(L"close ./music/skill.mp3", 0, 0, 0);
+	mciSendString(L"open ./music/skill.mp3", 0, 0, 0);
+	mciSendString(L"play ./music/skill.mp3", 0, 0, 0);
+}
+//æ¨™é¡ŒèªéŸ³
+void title()
+{
+	mciSendString(L"close ./music/title.mp3", 0, 0, 0);
+	mciSendString(L"open ./music/title.mp3", 0, 0, 0);
+	mciSendString(L"play ./music/title.mp3", 0, 0, 0);
+}
+//éŸ³æ•ˆ
+void sound()
+{
+	mciSendString(L"close ./music/kill.mp3", 0, 0, 0);
+	mciSendString(L"open ./music/kill.mp3", 0, 0, 0);
+	mciSendString(L"play ./music/kill.mp3", 0, 0, 0);
+}
+//æŠ€èƒ½èªéŸ³
+void skillline()
+{
+	mciSendString(L"close ./music/skillline.mp3", 0, 0, 0);
+	mciSendString(L"open ./music/skillline.mp3", 0, 0, 0);
+	mciSendString(L"play ./music/skillline.mp3", 0, 0, 0);
+}
 };
-
-//¤¶­±Ãş
+//ä»‹é¢é¡
 class ui
 {
 public:
-	//¶}©l¤¶­±
+//é–‹å§‹ä»‹é¢
 void welcome()
 	{		
+	  
+		LPCTSTR title = _T("éŠ€è¡Œä¿è¡›æˆ°");
+		LPCTSTR tplay = _T("é–‹å§‹éŠæˆ²");
+		LPCTSTR texit = _T("é€€å‡ºéŠæˆ²");
+		LPCTSTR tabout = _T("é—œæ–¼");
+		LPCTSTR tintroduce = _T("èªªæ˜");
+		IMAGE startimg;
 		loadimage(&startimg, L"./img/start.jpg", 600, 1200);
-		RECT tplayr, texitr, taboutr, tintroducer; //«ö¶s
+		RECT tplayr, texitr, taboutr, tintroducer; //æŒ‰éˆ•
 
 		while (true)
 		{
@@ -70,15 +98,15 @@ void welcome()
 			setbkcolor(WHITE);
 			cleardevice();
 			putimage(0, 0, &startimg);
-			settextstyle(80, 0, _T("¶ÂÅé"), 0, 0, 600, 0, 0, 0);
+			settextstyle(80, 0, _T("é»‘é«”"), 0, 0, 600, 0, 0, 0);
 
 			settextcolor(BLACK);
 			setbkmode(TRANSPARENT);
 
-			outtextxy(swidth / 2 - textwidth(title) / 2, sheight / 8, title);//¤å¥»¦ì¸m
+			outtextxy(swidth / 2 - textwidth(title) / 2, sheight / 8, title);//æ–‡æœ¬ä½ç½®
 
-			//³]©w«ö¶s¦ì¸m
-			settextstyle(60, 0, _T("¶ÂÅé"));
+			//è¨­å®šæŒ‰éˆ•ä½ç½®
+			settextstyle(60, 0, _T("é»‘é«”"));
 			tplayr.left = swidth / 2 - textwidth(tplay) / 2;
 			tplayr.right = tplayr.left + textwidth(tplay);
 			tplayr.top = sheight / 8 * 2.5;
@@ -114,15 +142,15 @@ void welcome()
 
 			if (mess.lbutton)
 			{
-				if (pointinrect(mess.x, mess.y, tplayr))//¶}©l¹CÀ¸
+				if (pointinrect(mess.x, mess.y, tplayr))//é–‹å§‹éŠæˆ²
 				{
 					return;
 				}
-				else if (pointinrect(mess.x, mess.y, texitr))//°h¥X¹CÀ¸
+				else if (pointinrect(mess.x, mess.y, texitr))//é€€å‡ºéŠæˆ²
 				{
 					exit(0);
 				}
-				else if (pointinrect(mess.x, mess.y, taboutr))//°h¥X¹CÀ¸
+				else if (pointinrect(mess.x, mess.y, taboutr))//é€€å‡ºéŠæˆ²
 				{
 					about();
 				}
@@ -135,30 +163,28 @@ void welcome()
 		}
 
 	}
-
-//³Ó§Q¤¶­±
+//å‹åˆ©ä»‹é¢
 void victory(unsigned long long& kill)
 {
 	IMAGE victoryimg;
 	loadimage(&victoryimg, L"./img/victory.jpg", 900, 1200);
-
 	setbkcolor(WHITE);
 	cleardevice();
-
 	putimage(-150, 0, &victoryimg);
+	LPCTSTR t1 = _T("ä»»å‹™å®Œæˆ");
+	LPCTSTR t2 = _T("æŒ‰Entercè¿”å›ä¸»ç•Œé¢");
 
 	settextcolor(BLACK);
-	settextstyle(100, 0, _T("¶ÂÅé"));
-	outtextxy(100, 100, L"¥ô°È§¹¦¨");
-	settextstyle(30, 0, _T("¶ÂÅé"));
-	settextstyle(30, 0, _T("¶ÂÅé"));
+	settextstyle(100, 0, _T("é»‘é«”"));
+	outtextxy(swidth/2 - textwidth(t1)/2, 100, t1);
 	setbkmode(OPAQUE);
-	outtextxy(180, 600, L"«öEntercªğ¦^¥D¬É­±");
+	settextstyle(50, 0, _T("é»‘é«”"));
+	outtextxy(swidth / 2 - textwidth(t2) / 2, 600, t2);
 	setbkmode(TRANSPARENT);
 	TCHAR* str = new TCHAR[128];
-	_stprintf_s(str, 128, _T("À»±ş¼Æ:% llu"), kill);
+	_stprintf_s(str, 128, _T("æ“Šæ®ºæ•¸:% llu"), kill);
 	settextcolor(RED);
-	settextstyle(60, 0, _T("¶ÂÅé"));
+	settextstyle(60, 0, _T("é»‘é«”"));
 	outtextxy(swidth / 6, sheight / 5, str);
 
 	music mus;
@@ -173,7 +199,7 @@ void victory(unsigned long long& kill)
 		}
 	}
 }
-//µ²§ô¤¶­±
+//çµæŸä»‹é¢
 void over(unsigned long long& kill)
 {
 	IMAGE endimg;
@@ -181,18 +207,18 @@ void over(unsigned long long& kill)
 	putimage(0, 0, &endimg);
 
 	TCHAR* str = new TCHAR[128];
-	_stprintf_s(str, 128, _T("À»±ş¼Æ:% llu"), kill);
+	_stprintf_s(str, 128, _T("æ“Šæ®ºæ•¸:% llu"), kill);
 	settextcolor(RED);
 	outtextxy(swidth / 2 - textwidth(str) / 2, sheight / 5, str);
 
-	//«ö¦^¨®°·ªğ¦^
-	//LPCTSTR info = _T("«öEntercªğ¦^");
-	settextstyle(30, 0, _T("¶ÂÅé"));
+	//æŒ‰å›è»Šå¥è¿”å›
+	//LPCTSTR info = _T("æŒ‰Entercè¿”å›");
+	settextstyle(30, 0, _T("é»‘é«”"));
 	setbkmode(OPAQUE);
-	outtextxy(180, 300, L"«öEntercªğ¦^¥D¬É­±");
+	outtextxy(180, 300, L"æŒ‰Entercè¿”å›ä¸»ç•Œé¢");
 	setbkmode(TRANSPARENT);
-	settextstyle(100, 0, _T("¶ÂÅé"));
-	outtextxy(100, 100, L"¥ô°È¥¢±Ñ");
+	settextstyle(100, 0, _T("é»‘é«”"));
+	outtextxy(100, 100, L"ä»»å‹™å¤±æ•—");
 	
 	music mus;
 	mus.bgm3();
@@ -206,27 +232,27 @@ void over(unsigned long long& kill)
 		}
 	}
 }
-
+//é—œæ–¼
 void about()
 {
 	IMAGE aboutimg;
 	loadimage(&aboutimg, L"./img/about.jpg", 600, 1200);
 	putimage(0, -100, &aboutimg);
 
-	settextstyle(100, 0, _T("¶ÂÅé"));
-	outtextxy(swidth / 3, 50, L"Ãö©ó");
-	settextstyle(30, 0, _T("¶ÂÅé"));
-	outtextxy(swidth / 2.3, 200, L"¹Ï·½");
+	settextstyle(100, 0, _T("é»‘é«”"));
+	outtextxy(swidth / 3, 50, L"é—œæ–¼");
+	settextstyle(30, 0, _T("é»‘é«”"));
+	outtextxy(swidth / 2.3, 200, L"åœ–æº");
 	outtextxy(swidth / 10, 250, L"@itaco_G  @parang9494  @haejooncho");
 	outtextxy(swidth / 3.5, 300, L" P:15317640    P:7054606");
-	outtextxy(swidth / 2.3, 350, L"­µ¼Ö");
+	outtextxy(swidth / 2.3, 350, L"éŸ³æ¨‚");
 	outtextxy(swidth / 4, 400, L"[Blue Archive] Theme_23 ");
 	outtextxy(swidth / 4, 450, L"[Blue Archive]Theme_27 ");
-	outtextxy(swidth / 4, 500, L"[fanmade]«K§Q«Î68Party!! ");
+	outtextxy(swidth / 4, 500, L"[fanmade]ä¾¿åˆ©å±‹68Party!! ");
 	outtextxy(0, 550, L"[Blue Archive]Unwelcome School_Piano Jazz Ver.");
-	outtextxy(swidth / 3, 600, L"»s§@:³¯¬FÂE");
+	outtextxy(swidth / 3, 600, L"è£½ä½œ:é™³æ”¿é´»");
 	setbkmode(OPAQUE);
-	outtextxy(180, 700, L"«öEntercªğ¦^¥D¬É­±");
+	outtextxy(180, 700, L"æŒ‰Entercè¿”å›ä¸»ç•Œé¢");
 	setbkmode(TRANSPARENT);
 
 	while (true)
@@ -239,25 +265,36 @@ void about()
 		}
 	}
 }
-
+//ä»‹ç´¹
 void introduce()
 {
 	IMAGE introduceimg;
 	loadimage(&introduceimg, L"./img/cg.jpg", 800, 1067);
 
 	putimage(-100, 0, &introduceimg);
-	settextstyle(100, 0, _T("¶ÂÅé"));
-	outtextxy(swidth / 3, 50, L"»¡©ú");
-	settextstyle(30, 0, _T("¶ÂÅé"));
+	settextstyle(100, 0, _T("é»‘é«”"));
+	outtextxy(swidth / 3, 50, L"èªªæ˜");
+	settextstyle(30, 0, _T("é»‘é«”"));
 
-	outtextxy(swidth / 4.5, 200, L"¥´À»«e¨Ó·m»È¦æªº¸o¥Ç");
-	outtextxy(swidth / 4.5, 250, L"¥Ø¼Ğ¬O¬Oªı¤î60¤H´Nºâ¦¨¥\");
-	outtextxy(swidth / 4.5, 300, L"¦ı¬O½Ğª`·N,§A¥u¦³3±ø©R");
-	outtextxy(swidth / 4.5, 350, L"³Q§ğÀ»,¼²¨ì¸o¥Ç³£·|´î¤Ö¥Í©R­È");
-	outtextxy(swidth / 4.5, 400, L"¨Ï¥Î·Æ¹«±±¨î¥D¨¤");
-	outtextxy(swidth / 4.5, 450, L"ªÅ®æÁä¼È°±");
+	LPCTSTR t1 = _T("æ‰“æ“Šå‰ä¾†æ¶éŠ€è¡Œçš„ç½ªçŠ¯");
+	LPCTSTR t2 = _T("ç›®æ¨™æ˜¯æ˜¯é˜»æ­¢130äººå°±ç®—æˆåŠŸ");
+	LPCTSTR t3 = _T("ä½†æ˜¯è«‹æ³¨æ„,ä½ åªæœ‰5æ¢å‘½");
+	LPCTSTR t4 = _T("è¢«æ”»æ“Š,æ’åˆ°ç½ªçŠ¯éƒ½æœƒæ¸›å°‘ç”Ÿå‘½å€¼");
+	LPCTSTR t5 = _T("ä½¿ç”¨æ»‘é¼ æ§åˆ¶ä¸»è§’");
+	LPCTSTR t6 = _T("ç©ºæ ¼éµæš«åœ");
+	LPCTSTR t7 = _T("séµæ–½æ”¾æŠ€èƒ½");
+	
+
+	outtextxy(swidth /2-textwidth(t1)/2, 200,t1 );
+	outtextxy(swidth / 2 - textwidth(t2)/2, 250, t2);
+	outtextxy(swidth / 2 - textwidth(t3)/2, 300, t3);
+	outtextxy(swidth / 2 - textwidth(t4)/2, 350,t4);
+	outtextxy(swidth / 2 - textwidth(t5)/2, 400, t5);
+	outtextxy(swidth / 2 - textwidth(t6)/2, 450, t6);
+	outtextxy(swidth / 2 - textwidth(t7)/2, 500, t7);
+
 	setbkmode(OPAQUE);
-	outtextxy(180, 600, L"«öEntercªğ¦^¥D¬É­±");
+	outtextxy(180, 600, L"æŒ‰Entercè¿”å›ä¸»ç•Œé¢");
 	setbkmode(TRANSPARENT);
 	while (true)
 	{
@@ -269,30 +306,56 @@ void introduce()
 		}
 	}
 }
+//é–‹å ´å‹•ç•«
+bool opening()
+{
+	music mu;
+	setbkcolor(WHITE);
+	cleardevice();
+	TCHAR imgname[256];
+	vector<IMAGE> run;
+	
+	for (int i = 0; i < 66; i++)
+	{
+		_stprintf_s(imgname, L"./opening/(%d).jpg", i);
+		IMAGE g1;
+		loadimage(&g1, imgname, 600, 500);
+		run.push_back(g1);
+	}
+	IMAGE imgshow;
+	int i = 0;
+	Sleep(1000);
+	mu.title();
+	while (1)
+	{
+		if (i == 66)
+		{
+			break;
+		}
+		imgshow = run[i];
+		putimage(0, 50, &imgshow);
+		i++;
+		Sleep(60);
+	}
+	return false;
+}
 
 private:
-		LPCTSTR title = _T("»È¦æ«O½Ã¾Ô");
-		LPCTSTR tplay = _T("¶}©l¹CÀ¸");
-		LPCTSTR texit = _T("°h¥X¹CÀ¸");
-		LPCTSTR tabout = _T("Ãö©ó");
-		LPCTSTR tintroduce = _T("»¡©ú");
-		IMAGE startimg;
 };
-
-//¸ê·½Ãş 
-class BK //­I´º
+//è³‡æºé¡ 
+class BK //èƒŒæ™¯
 {
 public:
-	//ªì©l¤Æ
+	//ä½¿ç”¨å»ºæ§‹å­åˆå§‹åŒ–
 	BK(IMAGE& img)
 	:img(img), y(-sheight)
 	{
 	}
-	//­I´º¹Ï¦V¤U°Ê
+	//èƒŒæ™¯åœ–å‘ä¸‹å‹•
 	void show()
 	{
 		if (y == 0) { y = -sheight; }
-		y += 4; //¹Ï¤ù¤U·Æ³t«×
+		y += 4; //åœ–ç‰‡ä¸‹æ»‘é€Ÿåº¦
 		putimage(0, y, &img);
 
 	}
@@ -304,21 +367,24 @@ private:
 class hero
 {
 public:
-	hero(IMAGE& img)
+	hero(IMAGE& img) 
 		:img(img), hp(xhp)
 	{
 	}
 
 	void show()
 	{
-		setlinecolor(RED);//¦å¶q
-		setlinestyle(PS_SOLID, 10);//¦å¶q²Ê²Ó
+		TCHAR* str = new TCHAR[128];
+		_stprintf_s(str, 128, _T("è¡€é‡:% d"),hp);
+		settextcolor(RED);
+		outtextxy(0, 60, str);
+		setlinecolor(RED);//è¡€é‡
+		setlinestyle(PS_SOLID, 10);//è¡€é‡ç²—ç´°
 		line(rect.left, rect.top - 2, rect.left + (img.getwidth() / xhp * hp), rect.top - 2);
-
-		putimage(rect.left, rect.top, &img); //±N¥D¨¤©ñ¸m¦b¹«¼Ğ¦ì¸m
+		putimage(rect.left, rect.top, &img); //å°‡ä¸»è§’æ”¾ç½®åœ¨é¼ æ¨™ä½ç½®
 	}
 
-	void control()//¨Ï¥Î¹«¼Ğ±±¨î¥D¨¤
+	void control()//ä½¿ç”¨é¼ æ¨™æ§åˆ¶ä¸»è§’
 	{
 		ExMessage mess;
 		if (peekmessage(&mess, EM_MOUSE))
@@ -330,7 +396,7 @@ public:
 		}
 	}
 
-	bool hurt()//¨ü¨ì§ğÀ»
+	bool hurt()//å—åˆ°æ”»æ“Š
 	{
 		hp--;	
 		music mus;
@@ -358,7 +424,7 @@ public:
 		rect.top = -img.getheight();
 		rect.bottom = 0;
 	}
-	bool show() //Åı¼Ä¤H²¾°Ê
+	bool show() //è®“æ•µäººç§»å‹•
 	{
 		if (isdie)
 		{
@@ -373,7 +439,7 @@ public:
 
 		if (rect.top >= sheight)
 		{
-			return false;//Â÷¶}µe­±«á¾P·´
+			return false;//é›¢é–‹ç•«é¢å¾ŒéŠ·æ¯€
 		}
 		rect.top += 1;
 		rect.bottom += 1;
@@ -398,7 +464,7 @@ private:
 	int boomsum;
 
 };
-class bullet
+class bullet                        
 {
 public:
 	bullet(IMAGE& img, RECT pr)
@@ -415,7 +481,7 @@ public:
 		{
 			return false;
 		}
-		rect.top -= 15; //¤l¼u³t«×
+		rect.top -= 15; //å­å½ˆé€Ÿåº¦
 		rect.bottom -= 15;
 		putimage(rect.left, rect.top, &img);
 
@@ -427,7 +493,7 @@ protected:
 	IMAGE& img;
 	RECT rect;
 };
-class ebullet : public bullet
+class ebullet : public bullet //ç¹¼æ‰¿
 {
 public:
 	ebullet(IMAGE& img, RECT pr)
@@ -444,7 +510,7 @@ public:
 		{
 			return false;
 		}
-		rect.top += 5; //¤l¼u³t«×
+		rect.top += 5; //å­å½ˆé€Ÿåº¦
 		rect.bottom += 5;
 		putimage(rect.left, rect.top, &img);
 
@@ -453,14 +519,45 @@ public:
 
 
 };
+//æŠ€èƒ½å‹•ç•«
+void skill1()
+	{
 
-//¥Í¦¨¼Ä¤H
+	music mu;
+	TCHAR imgname[256];
+	vector<IMAGE> run;// åœ–ç‰‡å®¹å™¨
+		for (int i = 0; i < 23; i++)
+	    {
+			_stprintf_s(imgname, L"./skill/(%d).jpg", i);
+			IMAGE g1;
+			loadimage(&g1, imgname, 400,300 );
+			run.push_back(g1);
+		}
+		mu.skill();
+		mu.skillline();
+		IMAGE imgshow;
+		int i = 0;
+		while (1)
+		{
+			if (i == 23)
+			{
+				break;
+			}
+
+			imgshow = run[i];
+			putimage(swidth/6,sheight/4, &imgshow);
+			i++;
+			Sleep(100);
+		}
+
+	}
+//ç”Ÿæˆæ•µäºº
 bool addenemy(vector<enemy*>& es, IMAGE& enemyimg, IMAGE* boom)
 {
-	enemy* e = new enemy(enemyimg, abs(rand()) % (swidth - enemyimg.getwidth()), boom);//¹ê²{¼Ä¤HÀH¾÷¥Í¦¨
+	enemy* e = new enemy(enemyimg, abs(rand()) % (swidth - enemyimg.getwidth()), boom);//å¯¦ç¾æ•µäººéš¨æ©Ÿç”Ÿæˆ
 	for (auto& i : es)
 	{
-		if (rectcrashrect(i->getrect(), e->getrect()))//§PÂ_¬O§_­«Å|
+		if (rectcrashrect(i->getrect(), e->getrect()))//åˆ¤æ–·æ˜¯å¦é‡ç–Š
 		{
 			delete e;
 			return false;
@@ -469,20 +566,19 @@ bool addenemy(vector<enemy*>& es, IMAGE& enemyimg, IMAGE* boom)
 	es.push_back(e);
 	return true;
 }
-
-//¹CÀ¸¤¶­±
+//éŠæˆ²ä»‹é¢
 bool play()
 {
 	ui uii;
 	setbkcolor(WHITE);
 	cleardevice();
 	bool is_play = true;
-	IMAGE heroimg, enemyimg, bkimg, bulletimg, bulletimg2; //´¡¤J¹Ï¤ù: ¥D¨¤ ¼Ä¤H ­I´º¹Ï ¤l¼u 
-	IMAGE eboom[3]; //Ãz¬µ®ÄªG
+	IMAGE heroimg, enemyimg, bkimg, bulletimg, bulletimg2; //æ’å…¥åœ–ç‰‡: ä¸»è§’ æ•µäºº èƒŒæ™¯åœ– å­å½ˆ 
+	IMAGE eboom[3]; //çˆ†ç‚¸æ•ˆæœ
 
 	loadimage(&heroimg, L"./img/hero.png", 70, 85);
 	loadimage(&enemyimg, L"./img/em1.png");
-	loadimage(&bkimg, L"./img/bk2.png", swidth, sheight * 2); //®æ¦¡¤Æ
+	loadimage(&bkimg, L"./img/bk2.png", swidth, sheight * 2); //æ ¼å¼åŒ–
 	loadimage(&bulletimg, L"./img/bullet1.png");
 	loadimage(&bulletimg2, L"./img/bullet2.png");
 	loadimage(&eboom[0], L"./img/boom1.png");
@@ -490,83 +586,55 @@ bool play()
 	loadimage(&eboom[2], L"./img/boom3.png");
 
 	unsigned long long  kill = 0;
-	
 
-	BK bk = BK(bkimg);
-	hero hp = hero(heroimg);
-	vector<enemy*> es;//¼Ä¤H
-	vector<bullet*> bs;//¥D¨¤¤l¼u
-	vector<ebullet*>ebs;//¼Ä¤H¤l¼u
-	int bsing = 0;//¤l¼uÀW²v
 
-	clock_t hurtlast = clock();//µL¼Ä´V
+	BK bk = BK(bkimg);//èƒŒæ™¯
+	hero hp = hero(heroimg);//ä¸»è§’
+	vector<enemy*> es;//æ•µäººåˆ—è¡¨
+	vector<bullet*> bs;//ä¸»è§’å­å½ˆ
+	vector<ebullet*>ebs;//æ•µäººå­å½ˆ
+	int bsing = 0;//å­å½ˆé »ç‡
+
+	clock_t hurtlast = clock();//ç„¡æ•µå¹€
+	clock_t skilllast = clock();//è¶…ç´šå ±å°„ æŠ€èƒ½å†·å»
+	clock_t skilltime = clock();//è¶…ç´šçˆ†å°„ æŠ€èƒ½æ™‚é–“
 
 	music mus;
 	mus.bgm2();
-
-	for (int i = 0; i < 5; i++) //¶}§½¥Í¦¨¼Ä¤H
+	
+	for (int i = 0; i < 5; i++) //é–‹å±€ç”Ÿæˆæ•µäºº
 	{
 		addenemy(es, enemyimg, eboom);
 	}
-	
 	while (is_play)
 	{
-		if (kill == 60)
-		{
-			break;
-		}
-			
-		bsing++;
 
-		if (bsing % 30 == 0)//¥D¨¤¤l¼uÀW²v
+		bsing++;//ä½¿ç”¨å¹€æ•¸ä¾†å¯¦ç¾è‡ªå‹•ç™¼å°„
+
+		if (bsing % frequency == 0)//ä¸»è§’å­å½ˆé »ç‡  ç•¶å¹€æ•¸ç­‰æ–¼30çš„å€æ•¸æ™‚ç™¼å°„ä¸€æ¬¡
 		{
-			bs.push_back(new bullet(bulletimg, hp.getrect()));//¥Í¦¨·sªº¤l¼u
+			bs.push_back(new bullet(bulletimg, hp.getrect()));//ç”Ÿæˆæ–°çš„å­å½ˆ
 		}
 
-		
-		if (bsing == 120)//¼Ä¤H¤l¼uÀW²v
+		if (bsing == 120)//æ•µäººå­å½ˆé »ç‡
 		{
 			bsing = 0;
-
-			for (auto& i : es)
+			for (auto& i : es) 
 			{
 				ebs.push_back(new ebullet(bulletimg2, i->getrect()));
 			}
 		}
 
 		BeginBatchDraw();
-	
+
 		bk.show();
 		Sleep(6);
 		flushmessage();
 		Sleep(2);
 		hp.control();
-
-		//«öªÅ¥Õ°·¼È°±
-		if (_kbhit())
-		{
-			char v = _getch();
-			if (v == 0x20)
-			{
-				Sleep(500);
-				while (true)
-				{
-					if (_kbhit())
-					{
-						v == _getch();
-						if (v == 0x20)
-						{
-							break;
-						}
-						Sleep(16);
-					}
-				}
-			}
-		}
-
 		hp.show();
 
-		auto bsit = bs.begin();//¥D¨¤¤l¼u
+		auto bsit = bs.begin();//éæ­·(ä¸»è§’å­å½ˆ)å®¹å™¨
 		while (bsit != bs.end())
 		{
 			if (!(*bsit)->show())
@@ -579,20 +647,21 @@ bool play()
 			}
 		}
 
-		auto ebsit = ebs.begin();//ªì©l¤Æ¼Ä¤H¤l¼u
+		auto ebsit = ebs.begin();//éæ­·(æ•µäººå­å½ˆ)å®¹å™¨
 		while (ebsit != ebs.end())
 		{
-			if (!(*ebsit)->show())//·í¼Ä¤H¤l¼u¶W¥X¤¶­±,¾P·´
+			if (!(*ebsit)->show())//ç•¶æ•µäººå­å½ˆè¶…å‡ºä»‹é¢,éŠ·æ¯€
 			{
 				ebsit = ebs.erase(ebsit);
 			}
 			else
 			{
-				if (rectcrashrect((*ebsit)->getrect(), hp.getrect()))//¸I¼²¼Ä¤H¤l¼u,¦©ª±®a¥Í©R
+				if (rectcrashrect((*ebsit)->getrect(), hp.getrect()))//ç¢°æ’æ•µäººå­å½ˆ,æ‰£ç©å®¶ç”Ÿå‘½
 				{
 					if (clock() - hurtlast >= hurttime)
 					{
 						is_play = hp.hurt();
+
 					}
 					hurtlast = clock();
 				}
@@ -601,15 +670,15 @@ bool play()
 		}
 
 		TCHAR* str = new TCHAR[128];
-		_stprintf_s(str, 128, _T("À»±ş¼Æ:% llu /60"), kill);
+		_stprintf_s(str, 128, _T("æ“Šæ®ºæ•¸:% llu /% d"), kill,killnum);
 		settextcolor(RED);
-		settextstyle(30, 0, _T("¶ÂÅé"));
+		settextstyle(30, 0, _T("é»‘é«”"));
 		outtextxy(0, 0, str);
 
-		auto it = es.begin();//©w¸q(¼Ä¤H)®e¾¹ªºªì©l¦ì¸m
+		auto it = es.begin();////éæ­·(æ•µäºº)å®¹å™¨
 		while (it != es.end())
 		{
-			if (rectcrashrect((*it)->getrect(), hp.getrect()))//¸I¼²¨ì¼Ä¤H,¦©ª±®a¥Í©R
+			if (rectcrashrect((*it)->getrect(), hp.getrect()))//ç¢°æ’åˆ°æ•µäºº,æ‰£ç©å®¶ç”Ÿå‘½
 			{
 				if (clock() - hurtlast >= hurttime)
 				{
@@ -617,24 +686,23 @@ bool play()
 				}
 				hurtlast = clock();
 			}
+
 			
-			
-			auto bit = bs.begin(); ////©w¸q(¥D¨¤¤l¼u)®e¾¹ªºªì©l¦ì¸m
+			auto bit = bs.begin(); //éæ­·(ä¸»è§’å­å½ˆ)å®¹å™¨
 			while (bit != bs.end())
 			{
-				if (rectcrashrect((*bit)->getrect(), (*it)->getrect()))//¼Ä¤H¸I¼²¨ì¥D¨¤¤l¼u,¾P·´
+				if (rectcrashrect((*bit)->getrect(), (*it)->getrect()))//æ•µäººç¢°æ’åˆ°ä¸»è§’å­å½ˆ,éŠ·æ¯€
 				{
 					(*it)->Isdie();
 					delete(*bit);
 					bs.erase(bit);
-
+					mus.sound();
 					kill++;
 					break;
 				}
 				bit++;
 			}
-
-			if (!(*it)->show())//·í¼Ä¤H¶W¥X¤¶­±,¾P·´
+			if (!(*it)->show())//ç•¶æ•µäººè¶…å‡ºä»‹é¢,éŠ·æ¯€
 			{
 				delete(*it);
 				es.erase(it);
@@ -643,38 +711,96 @@ bool play()
 			it++;
 		}
 
-		for (int i = 0; i < 5 - es.size(); i++)//·í¼Ä¤H¦º¤`,¦Û°Ê·s¼W·s¼Ä¤H
+
+
+		for (int i = 0; i < 5 - es.size(); i++)//ç•¶æ•µäººæ­»äº¡,è‡ªå‹•æ–°å¢æ–°æ•µäºº
 		{
 			addenemy(es, enemyimg, eboom);
 		}
+
+		while (clock() - skilllast >= hurttime * 50)//è¶…ç´šçˆ†å°„ æŠ€èƒ½å†·å»å®Œç•¢æç¤º
+		{
+			LPCTSTR skill = _T("è¶…ç´šçˆ†å°„ æŠ€èƒ½å†·å»å®Œç•¢ æŒ‰\"s\"æ–½æ”¾");
+			settextcolor(BLACK);
+
+			outtextxy(swidth/2 - textwidth(skill)/2,700 , skill);
+			break;
+		}
+
+
 		EndBatchDraw();
+
+		if (clock() - skilltime >= hurttime * 20)//è¶…ç´šçˆ†å°„ çµæŸæŠ€èƒ½
+		{
+			frequency = 30;
+		}
+		
+
+		//æŒ‰å»ºæŒ‡ä»¤
+		if (_kbhit())
+		{
+			int v = _getch();
+			if (v == 115) //séµæ”¾æŠ€èƒ½
+			{
+				if (clock() - skilllast >= hurttime* 50)//è¶…ç´šçˆ†å°„ æŠ€èƒ½å†·å»
+				{
+					frequency = 10;
+					while (true)
+					{
+						skill1();
+						break;
+					}
+					skilllast = clock();
+					skilltime = clock();
+				}
+
+			}
+
+			if (v == 32)//ç©ºç™½éµæš«åœ
+			{
+				Sleep(500);
+				while (true)
+				{
+					if (_kbhit())
+					{
+						v == _getch();
+						if (v == 32)
+						{
+							break;
+						}
+						Sleep(16);
+					}
+				}
+			}
+
+		}
+		//å‹åˆ©
+		if (kill >= killnum)
+		{
+			Sleep(200);
+			uii.victory(kill);
+			return true;
+		}
 	}
 
-	//³Ó§Q±ø¥ó
-	if (kill >= 60)
-	{
-		uii.victory(kill);
-	}
-	else
-	{
-		uii.over(kill);
-	}
-	return true;
+		if(kill<=killnum)
+		{
+			Sleep(200);
+			uii.over(kill);
+			return true;
+		}
 }
 
 int main()
 {
-	ui uii;
-	
-	initgraph(swidth, sheight, EW_NOMINIMIZE | EW_SHOWCONSOLE);  //easyxªì©l¤Æ
-	bool is_live = true;   //·í¹CÀ¸¶}©l¶i¦æ
-
+	initgraph(swidth, sheight, EW_NOMINIMIZE | EW_SHOWCONSOLE);  //easyxåˆå§‹åŒ–
+	bool is_live = true;   //ç•¶éŠæˆ²é–‹å§‹é€²è¡Œ
 	ui ui;
+	ui.opening();
 	while (is_live)
-	{
+	{	
 		ui.welcome();
 		is_live = play();
 	}
-
 	return 0;
 }
