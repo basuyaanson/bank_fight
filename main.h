@@ -1,27 +1,29 @@
+// éŠ€è¡Œå¤§æˆ° è£½ä½œé™³æ”¿é´»
 #pragma once
-// »È¦æ«O½Ã¾Ô »s§@³¯¬FÂE
 #include<iostream>
 #include<graphics.h> //easyx
 #include<vector>
 #include<conio.h>
 #include<mmsystem.h>
-#pragma comment(lib,"winmm.lib")//ÀRºA®w
+#pragma comment(lib,"winmm.lib")//éœæ…‹åº«
 using namespace std;
 
-//©w¸qµe­±ªø¼e
+//å®šç¾©ç•«é¢é•·å¯¬
 constexpr auto swidth = 600;
 constexpr auto sheight = 1100;
 
-constexpr auto hurttime = 400;//¨ü¨ì§ğÀ»«á,²K¥[µL¼Ä´V
-unsigned int xhp = 5;//¥D¨¤¦å¶q
+constexpr auto hurttime = 400;//å—åˆ°æ”»æ“Šå¾Œ,æ·»åŠ ç„¡æ•µå¹€
+unsigned int xhp = 5;//ä¸»è§’è¡€é‡
+unsigned int frequency = 30;//ä¸»è§’å­å½ˆé »ç‡
+unsigned int killnum = 130;//å‹åˆ©æ¢ä»¶
 
-//«ö¶sÂIÀ»§P©w
+//æŒ‰éˆ•é»æ“Šåˆ¤å®š
 bool pointinrect(int x, int y, RECT& r)
 {
 	return(r.left <= x && x <= r.right && r.top <= y && y <= r.bottom);
 }
 
-//¸I¼²ÀË´ú
+//ç¢°æ’æª¢æ¸¬
 bool rectcrashrect(RECT& r1, RECT& r2)
 {
 	RECT r;
@@ -32,3 +34,6 @@ bool rectcrashrect(RECT& r1, RECT& r2)
 
 	return(r.left < r2.left&& r2.left <= r.right && r.top <= r2.top && r2.top <= r.bottom);
 }
+
+
+
