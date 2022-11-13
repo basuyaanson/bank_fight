@@ -60,7 +60,7 @@ void title()
 	mciSendString(L"open ./music/title.mp3", 0, 0, 0);
 	mciSendString(L"play ./music/title.mp3", 0, 0, 0);
 }
-//音效
+//擊殺音效
 void sound()
 {
 	mciSendString(L"close ./music/kill.mp3", 0, 0, 0);
@@ -364,7 +364,7 @@ private:
 	IMAGE& img;
 	int y;
 };
-class hero
+class hero //主角
 {
 public:
 	hero(IMAGE& img) 
@@ -383,7 +383,6 @@ public:
 		line(rect.left, rect.top - 2, rect.left + (img.getwidth() / xhp * hp), rect.top - 2);
 		putimage(rect.left, rect.top, &img); //將主角放置在鼠標位置
 	}
-
 	void control()//使用鼠標控制主角
 	{
 		ExMessage mess;
@@ -395,7 +394,6 @@ public:
 			rect.bottom = rect.top + img.getheight();
 		}
 	}
-
 	bool hurt()//受到攻擊
 	{
 		hp--;	
@@ -407,7 +405,6 @@ public:
 private:
 	IMAGE& img;
 	RECT rect;
-
 	unsigned int hp;
 };
 class enemy
@@ -493,7 +490,7 @@ protected:
 	IMAGE& img;
 	RECT rect;
 };
-class ebullet : public bullet //繼承
+class ebullet  : public bullet //繼承
 {
 public:
 	ebullet(IMAGE& img, RECT pr)
@@ -516,7 +513,6 @@ public:
 
 		return true;
 	}
-
 
 };
 //技能動畫
@@ -581,12 +577,12 @@ bool play()
 	loadimage(&bkimg, L"./img/bk2.png", swidth, sheight * 2); //格式化
 	loadimage(&bulletimg, L"./img/bullet1.png");
 	loadimage(&bulletimg2, L"./img/bullet2.png");
+
 	loadimage(&eboom[0], L"./img/boom1.png");
 	loadimage(&eboom[1], L"./img/boom2.png");
 	loadimage(&eboom[2], L"./img/boom3.png");
 
 	unsigned long long  kill = 0;
-
 
 	BK bk = BK(bkimg);//背景
 	hero hp = hero(heroimg);//主角
@@ -624,7 +620,6 @@ bool play()
 				ebs.push_back(new ebullet(bulletimg2, i->getrect()));
 			}
 		}
-
 		BeginBatchDraw();
 
 		bk.show();
@@ -793,6 +788,7 @@ bool play()
 
 int main()
 {
+	system("color 70");
 	initgraph(swidth, sheight, EW_NOMINIMIZE | EW_SHOWCONSOLE);  //easyx初始化
 	bool is_live = true;   //當遊戲開始進行
 	ui ui;
