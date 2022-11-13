@@ -34,6 +34,3 @@ bool rectcrashrect(RECT& r1, RECT& r2)
 
 	return(r.left < r2.left&& r2.left <= r.right && r.top <= r2.top && r2.top <= r.bottom);
 }
-
-
-
